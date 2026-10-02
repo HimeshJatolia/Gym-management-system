@@ -1,0 +1,139 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="gym_management.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GYM Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="Site.css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-icon"><i class="fas fa-dumbbell"></i></div>
+                    <div>
+                        <h2>FitPro GYM</h2>
+                        <span>Management System</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <asp:Panel ID="pnlAdminDashLink" runat="server">
+                        <div class="nav-section">
+                            <div class="nav-section-title">Main</div>
+                            <a href="Dashboard.aspx" class="nav-link" id="navDashboard">
+                                <span class="nav-icon"><i class="fas fa-chart-pie"></i></span> Dashboard
+                            </a>
+                        </div>
+                    </asp:Panel>
+
+                    <asp:Panel ID="pnlMemberDashLink" runat="server" Visible="false">
+                        <div class="nav-section">
+                            <div class="nav-section-title">Main</div>
+                            <a href="MemberDashboard.aspx" class="nav-link" id="navMemberDash">
+                                <span class="nav-icon"><i class="fas fa-home"></i></span> My Dashboard
+                            </a>
+                        </div>
+                    </asp:Panel>
+
+                    <asp:Panel ID="pnlAdminNav" runat="server">
+                        <div class="nav-section">
+                            <div class="nav-section-title">Management</div>
+                            <a href="Members.aspx" class="nav-link" id="navMembers">
+                                <span class="nav-icon"><i class="fas fa-users"></i></span> Members
+                            </a>
+                            <a href="Trainers.aspx" class="nav-link" id="navTrainers">
+                                <span class="nav-icon"><i class="fas fa-user-tie"></i></span> Trainers
+                            </a>
+                            <a href="MembershipPlans.aspx" class="nav-link" id="navPlans">
+                                <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span> Membership Plans
+                            </a>
+                            <a href="Memberships.aspx" class="nav-link" id="navMemberships">
+                                <span class="nav-icon"><i class="fas fa-id-card"></i></span> Memberships
+                            </a>
+                        </div>
+
+                        <div class="nav-section">
+                            <div class="nav-section-title">Operations</div>
+                            <a href="Payments.aspx" class="nav-link" id="navPayments">
+                                <span class="nav-icon"><i class="fas fa-credit-card"></i></span> Payments
+                            </a>
+                            <a href="Attendance.aspx" class="nav-link" id="navAttendance">
+                                <span class="nav-icon"><i class="fas fa-calendar-check"></i></span> Attendance
+                            </a>
+                        </div>
+
+                        <div class="nav-section">
+                            <div class="nav-section-title">Analytics</div>
+                            <a href="Reports.aspx" class="nav-link" id="navReports">
+                                <span class="nav-icon"><i class="fas fa-chart-line"></i></span> Reports
+                            </a>
+                        </div>
+                    </asp:Panel>
+
+                    <asp:Panel ID="pnlMemberNav" runat="server" Visible="false">
+                        <div class="nav-section">
+                            <div class="nav-section-title">My Account</div>
+                            <a href="MemberProfile.aspx" class="nav-link" id="navProfile">
+                                <span class="nav-icon"><i class="fas fa-user"></i></span> My Profile
+                            </a>
+                            <a href="MemberAttendance.aspx" class="nav-link" id="navMyAttendance">
+                                <span class="nav-icon"><i class="fas fa-calendar-check"></i></span> My Attendance
+                            </a>
+                            <a href="MemberPayments.aspx" class="nav-link" id="navMyPayments">
+                                <span class="nav-icon"><i class="fas fa-credit-card"></i></span> My Payments
+                            </a>
+                        </div>
+                    </asp:Panel>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" OnClick="btnLogout_Click">
+                        <span class="nav-icon"><i class="fas fa-sign-out-alt"></i></span> Logout
+                    </asp:LinkButton>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <header class="header">
+                    <h1 class="header-title">
+                        <asp:ContentPlaceHolder ID="PageTitle" runat="server">Dashboard</asp:ContentPlaceHolder>
+                    </h1>
+                    <div class="header-user">
+                        <div>
+                            <div class="user-name"><asp:Label ID="lblUserName" runat="server" Text="Admin"></asp:Label></div>
+                            <div class="user-role"><asp:Label ID="lblUserRole" runat="server" Text="Administrator"></asp:Label></div>
+                        </div>
+                        <div class="user-avatar">
+                            <asp:Label ID="lblUserInitial" runat="server" Text="A"></asp:Label>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="page-content">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var path = window.location.pathname.split("/").pop();
+            if (!path || path.trim() === "") path = "Dashboard.aspx";
+            document.querySelectorAll('.sidebar-nav .nav-link').forEach(function (link) {
+                var href = link.getAttribute('href');
+                if (href && href.toLowerCase() === path.toLowerCase()) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
